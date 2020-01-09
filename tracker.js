@@ -1,24 +1,14 @@
 
 const inquirer = require("inquirer");
-//const orm = require("./config/orm.js");
+
 const mysql = require("mysql");
 const figlet = require('figlet');
 
-var express = require("express");
-var exphbs = require("express-handlebars");
-
-var app = express();
 
 // Set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var PORT = process.env.PORT || 8080;
 
-// Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
 
 
 var connection = mysql.createConnection({
@@ -178,47 +168,5 @@ inquirer.prompt([
     }
   
 });
-// connection.end();
-// Start our server so that it can begin listening to client requests.
-// app.listen(PORT, function() {
-//     // Log (server-side) when our server has started
-//     console.log("Server listening on: http://localhost:" + PORT);
-//   });
-  
 
-
-
-
-        
-   
-
-   
-   
-   
-
-
-    
-
-
-// const deleteEmployees = ()=>{
-//     console.log("Deleted an Employee Record");
-// }
-
-
-//var orm = require("./config/orm.js");
-
-// For each of the following select methods, a string argument containing wildcard character ("*")
-// could work in most environments, but some MySQL servers (like MAMP) will return an error.
-
-// Console log all the party_name's.
-// orm.select("party_name", "parties");
-
-// Console log all the client_name's.
-// orm.select("client_name", "clients");
-
-// Console log all the parties that have a party-type of grown-up.
-// orm.selectWhere("parties", "party_type", "grown-up");
-
-// Console log all the clients and their parties.
-// orm.leftJoin(["client_name", "party_name"], "clients", "parties", "id", "client_id");
 
