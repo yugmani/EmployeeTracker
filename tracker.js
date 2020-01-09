@@ -116,7 +116,7 @@ inquirer.prompt([
             .prompt([
                 {
                 type: "input",
-                name: "role_id",
+                name: "employee_id",
                 message: "What is the ID of an employee to UPATE?",
                 },
                 {
@@ -129,7 +129,7 @@ inquirer.prompt([
                 console.log(pass);
         
         // app.put("/api/employees/:id", function(req, res) {
-            connection.query("UPDATE employees SET role_id = ? WHERE id = ?", [[`${pass.new_role}`], [`${pass.role_id}`]], function(err, result) {
+            connection.query("UPDATE employees SET role_id = ? WHERE id = ?", [[`${pass.new_role}`], [`${pass.employee_id}`]], function(err, result) {
               if (err) {
                 // If an error occurred, send a generic server failure
                 throw err;
@@ -146,15 +146,26 @@ inquirer.prompt([
           });
      
     } else if(data.tasks === "Delete a Record of an Employee"){
-        app.delete("/api/employees/:id", function(req, res) {
-            connection.query("DELETE FROM employees WHERE id = ?", [req.params.id], function(err, result) {
+        inquirer
+            .prompt([
+                {
+                type: "input",
+                name: "employee_id",
+                message: "What is the ID of an employee to DELETE?"
+                }
+    
+            ]).then(function(doit) {
+                console.log(doit);
+
+        // app.delete("/api/employees/:id", function(req, res) {
+            connection.query("DELETE FROM employees WHERE id = ?", [`${doit.employee_id}`], function(err, result) {
               if (err) {
                 // If an error occurred, send a generic server failure
-                return res.status(500).end();
+                throw err;
               }
               else if (result.affectedRows === 0) {
                 // If no rows were changed, then the ID must not exist, so 404
-                return res.status(404).end();
+                throw err;
               }
             //   res.status(200).end();
           
@@ -169,10 +180,10 @@ inquirer.prompt([
 });
 // connection.end();
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, function() {
-    // Log (server-side) when our server has started
-    console.log("Server listening on: http://localhost:" + PORT);
-  });
+// app.listen(PORT, function() {
+//     // Log (server-side) when our server has started
+//     console.log("Server listening on: http://localhost:" + PORT);
+//   });
   
 
 
